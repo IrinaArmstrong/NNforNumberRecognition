@@ -6,6 +6,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Library {
 
@@ -66,31 +68,4 @@ public class Library {
         return  number;
     }
 
-    // Class, to store a pair: task and right answer
-    class TaskAnswerPair {
-
-        private byte[][] task;
-        private int number;
-
-        public TaskAnswerPair(byte[][] task, int number) {
-            this.task = task;
-            this.number = number;
-        }
-
-        public byte[][] getTask() {
-            return task;
-        }
-
-        public void setTask(byte[][] task) {
-            this.task = task;
-        }
-
-        public int getNumber() {
-            return number;
-        }
-
-        public void setNumber(int number) {
-            this.number = number;
-        }
-    }
 }
