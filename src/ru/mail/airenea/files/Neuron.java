@@ -10,7 +10,7 @@ public class Neuron {
     private double[] dendritWeights;
 
     // Output signal of neuron
-    private double output;
+    public double output;
 
     // Number of dendrits
     private int dendritNumber;
@@ -20,6 +20,9 @@ public class Neuron {
 
     // Summ of weights * outputs from previous layer = z
     private double weightsOutputsSumm;
+
+    // Speed of learning or a step of grad descending
+    private double alpha;
 
     // Constructor, that init weights, bias as random numbers (at first time using neuron)
     public Neuron( int dendritNumber) {
@@ -43,17 +46,13 @@ public class Neuron {
     }
 
     // Get signals on dendrits from previous layer
-    private void getSignals(double[] prevOutputs)  {
+    public void getSignals(double[] prevOutputs)  {
         for (int i = 0; i < dendritNumber; i++)  {
             this.weightsOutputsSumm += prevOutputs[i] * this.dendritWeights[i];
         }
         this.weightsOutputsSumm += this.bias;
     }
 
-    // Get error from next layer
-    public void setError(double error) {
-        this.error = error;
-    }
 
     // Give errors to previous layer
     public double[] giveErrors() {
@@ -65,10 +64,23 @@ public class Neuron {
     }
 
     // Count error for this neuron
-    private void countError(double[] nextErrors) {
+    public void countError(double[] nextErrors) {
         for (int i = 0; i < nextErrors.length; i++)  {
             this.error += nextErrors[i];
         }
         this.error *= this.derivateSigmoid();
+    }
+
+    // Recount weights and bias using error
+    public void correctWeights()  {
+        for (int i = 0; i < dendritNumber; i++)  {
+            this.dendritWeights[i] -= this.alpha * this.error * this.output;
+        }
+        this.bias -= this.alpha * this.error;
+    }
+
+    // Give output signal to next layer's neurons
+    public double getOutputSignal() {
+        return output;
     }
 }
