@@ -63,7 +63,7 @@ public class Neuron {
         return returnedErrors;
     }
 
-    // Count error for this neuron
+    // Count error for this neuron, if it is in hidden layers
     public void countError(double[] nextErrors) {
         for (int i = 0; i < nextErrors.length; i++)  {
             this.error += nextErrors[i];
@@ -71,8 +71,14 @@ public class Neuron {
         this.error *= this.derivateSigmoid();
     }
 
+    // Count error for this neuron, if it is in last layer
+    public void lastLayerCountError(double rightAnswers)  {
+        this.error = -(rightAnswers - this.output) * derivateSigmoid();
+    }
+
     // Recount weights and bias using error
-    public void correctWeights()  {
+    public void correctWeights(double learningRate)  {
+        this.alpha = learningRate;
         for (int i = 0; i < dendritNumber; i++)  {
             this.dendritWeights[i] -= this.alpha * this.error * this.output;
         }

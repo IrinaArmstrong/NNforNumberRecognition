@@ -19,6 +19,16 @@ public class Layer {
     // Array of neurons
     private Neuron[] neurons;
 
+    // Get array of neurons
+    public Neuron[] getNeurons() {
+        return neurons;
+    }
+
+    // Get number of neurons in this layer
+    public int getNeuronsNumber() {
+        return neuronsNumber;
+    }
+
     // Constructor of this layer
     public Layer(int serialNumber, int neuronsNumber, int prevNeuronsNumber) {
         this.serialNumber = serialNumber;
@@ -69,9 +79,9 @@ public class Layer {
     }
 
     // Corrects weights and biases of all this layer's neurons
-    public void correctWeightsOfLayer()  {
+    public void correctWeightsOfLayer(double learningRate)  {
         for (int i = 0; i < this.neuronsNumber; i++)  {
-            this.neurons[i].correctWeights();
+            this.neurons[i].correctWeights(learningRate);
         }
     }
 }

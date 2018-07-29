@@ -59,7 +59,7 @@ public class Network {
     }
 
     // Learning method !!!!!!!!!!!!!!!!!!!!!!!!!
-    public double[] learn(ArrayList<TaskAnswerPair> tasks, double learningRate, double accuracy)  {
+    public double[] learn(ArrayList<TaskAnswerPair> tasks, double learningRate, int iterations)  {
 
         // Get array of right answers
         double[] answers = new double[tasks.size()];
@@ -67,24 +67,54 @@ public class Network {
             answers[i] = tasks.get(i).getNumber();
         }
 
-        // (Сделать в цикле !!!!)
-        // Tasks to linear structure
-        int taskLenght = tasks.get(0).getTask().length;
-        double[] task = new double[taskLenght * taskLenght];
-        for (int row = 0; row < taskLenght; row++) {
-            for (int col = 0; col < taskLenght; col++) {
-                task[row + col] = tasks.get(0).getTask()[row][col];
+        // Iterate chosen number of times
+        for (int iter = 0; iter < iterations; iter++)  {
+
+            // Go through all tasks from the set
+            for (int taskNum = 0; taskNum < tasks.size(); taskNum++)  {
+
+                // Tasks to linear structure
+                int taskLenght = tasks.get(0).getTask().length;
+                double[] task = new double[taskLenght * taskLenght];
+                for (int row = 0; row < taskLenght; row++) {
+                    for (int col = 0; col < taskLenght; col++) {
+                        task[row + col] = tasks.get(0).getTask()[row][col];
+                    }
+                }
+                // Send signals through all layers
+                for (int i = 0; i < this.layersNumber; i++)  {
+                    if (i == 0) this.layers[i].getInputSignalToLayer(task);
+                    else {
+                        transmitSignals(i - 1, i);
+                    }
+                }
+                // Send final signal from the last layer to the output
+                this.results = this.getOutputSignal();
+
+                // Check for mistakes, if the are no mistakes -> give result, finish.
+                // Else - > counting mistake
+                /*if (this.isRight(this.results, answers))  {
+                    System.out.println("No mistake appeared!");
+                    return this.results;
+                }
+                else {}*/
+
+                    // Mistake for the last layer
+                    for (int i = 0; i < this.layers[layersNumber - 1].getNeuronsNumber(); i++)  {
+                        this.layers[layersNumber - 1].getNeurons()[i].lastLayerCountError(answers[i]);
+                    }
+                    // Mistake for other layers
+                    for (int i = this.layersNumber; i > 1 ; i--)  {
+                        layers[i - 1].getErrors(layers[i].giveErrorsToLayer());
+                    }
+                    // Correcting weights and biases, from 2nd layer to the last
+                    for (int i = 1; i < this.layersNumber; i++)  {
+                        layers[i].correctWeightsOfLayer(learningRate);
+                    }
             }
         }
-
-            for (int i = 0; i < this.layersNumber; i++)  {
-                if (i == 0) this.layers[i].getInputSignalToLayer(task);
-                else {
-                    transmitSignals(i - 1, i);
-                }
-            }
-
-        return this.getOutputSignal();
+        System.out.println("Iterated " + iterations + " of times. Results returned.");
+        return this.results;
     }
 
     // Check if the answer of the network is right
@@ -96,5 +126,25 @@ public class Network {
         return  right;
     }
 
-    //
+    // Testing on example
+    public double[] testing (TaskAnswerPair exampleTask, double learningRate)  {
+        // Tasks to linear structure
+        int taskLenght = exampleTask.getTask().length;
+        double[] task = new double[taskLenght * taskLenght];
+        for (int row = 0; row < taskLenght; row++) {
+            for (int col = 0; col < taskLenght; col++) {
+                task[row + col] = exampleTask.getTask()[row][col];
+            }
+        }
+        // Send signals through all layers
+        for (int i = 0; i < this.layersNumber; i++)  {
+            if (i == 0) this.layers[i].getInputSignalToLayer(task);
+            else {
+                transmitSignals(i - 1, i);
+            }
+        }
+        // Send final signal from the last layer to the output
+        this.results = this.getOutputSignal();
+        return this.results;
+    }
 }
