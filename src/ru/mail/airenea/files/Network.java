@@ -23,7 +23,11 @@ public class Network {
 
     // Constructor of this network
     public Network(int layersNumber, int[] neuronsInLayers) {
+        if (layersNumber != neuronsInLayers.length) {
+            System.err.println("Number of layers != number of elements in neuron's number array!");
+        }
         this.layersNumber = layersNumber;
+        this.neuronsInLayers = new int[this.layersNumber];
         for (int i = 0; i < this.layersNumber; i++)  {
             this.neuronsInLayers[i] = neuronsInLayers[i];
         }
@@ -32,6 +36,7 @@ public class Network {
 
     // Create array of layers
     private void createLayers()  {
+        this.layers = new Layer[this.layersNumber];
         this.layers[0] = new Layer(0, this.neuronsInLayers[0], this.neuronsInLayers[0]);
         for (int i = 1; i < this.layersNumber; i++)  {
             this.layers[i] = new Layer(i, this.neuronsInLayers[i], this.neuronsInLayers[i - 1]);
@@ -104,7 +109,7 @@ public class Network {
                         this.layers[layersNumber - 1].getNeurons()[i].lastLayerCountError(answers[i]);
                     }
                     // Mistake for other layers
-                    for (int i = this.layersNumber; i > 1 ; i--)  {
+                    for (int i = this.layersNumber - 1; i > 1 ; i--)  {
                         layers[i - 1].getErrors(layers[i].giveErrorsToLayer());
                     }
                     // Correcting weights and biases, from 2nd layer to the last
@@ -127,6 +132,7 @@ public class Network {
     }
 
     // Testing on example
+    // TODO: continue here
     public double[] testing (TaskAnswerPair exampleTask, double learningRate)  {
         // Tasks to linear structure
         int taskLenght = exampleTask.getTask().length;

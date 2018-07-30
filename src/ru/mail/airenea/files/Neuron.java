@@ -28,6 +28,7 @@ public class Neuron {
     public Neuron( int dendritNumber) {
         this.dendritNumber = dendritNumber;
         this.bias = Math.random();
+        this.dendritWeights = new double[this.dendritNumber];
         for (int i = 0; i < dendritNumber; i++)  {
             this.dendritWeights[i] = Math.random();
         }

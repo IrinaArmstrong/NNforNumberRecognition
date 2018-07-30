@@ -8,13 +8,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Library {
 
     private static String dirPath = "C:\\Users\\Ирина\\Documents\\Программирование\\Нейронные сети\\Выборки для НС\\Numbers";
 
     private static File dir = new File(dirPath);
-    private static int num;
+    private int num;
 
     // Returns set of training pairs of task and answer
     public ArrayList <TaskAnswerPair> getSet(int num) {
@@ -31,7 +32,7 @@ public class Library {
     }
 
     // Get matrix of pixels
-    public static byte[][] getPixels()  {
+    public byte[][] getPixels()  {
 
         BufferedImage image = getImageFromFile();
         int width = image.getWidth();
@@ -48,7 +49,7 @@ public class Library {
 
 
     //Get certain image from file system
-    private static BufferedImage getImageFromFile()  {
+    private BufferedImage getImageFromFile()  {
 
         String imgURL = "num" + generateRandNumber() + ".jpg";
         File file = new File(dir, imgURL);
@@ -62,10 +63,10 @@ public class Library {
     }
 
     // Generating random number
-    private static int generateRandNumber()  {
-        int number = (int) Math.random() * 10;
-        num = number;
-        return  number;
+    private int generateRandNumber()  {
+        Random random = new Random();
+        num = random.nextInt(10);
+        return  num;
     }
 
 }

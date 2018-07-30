@@ -54,19 +54,20 @@ public class Teacher {
     }
 
     // Train network
-    public boolean train()  {
+    public void train()  {
         ArrayList<TaskAnswerPair> tasks = this.library.getSet(numberOfTasks);
         // Get array of right answers
         double[] answers = new double[tasks.size()];
         for (int i = 0; i < tasks.size(); i++)  {
             answers[i] = tasks.get(i).getNumber();
         }
+        // TODO: continue here
         // Training network
         network.learn(tasks, coefficient, iterations);
         //Testing on one example
         TaskAnswerPair example = this.library.getOne();
-        //this.results =
-        // Interpreting results
+        this.results = network.testing(example, coefficient);
+        // Interpreting results: finding max output of neuron (in last layer) this will be an answer
         double max = Double.MIN_VALUE;
         int maxIdx = 0;
         for (int i = 0; i < results.length; i++) {
@@ -75,7 +76,11 @@ public class Teacher {
                 maxIdx = i;
             }
         }
+        System.out.printf("Answer of network is: %d, right answer is: %d.%n", maxIdx, example.getNumber());
+        System.out.println("All possibilities: ");
+        for (int i = 0; i < results.length; i++) {
+            System.out.println("#" + i + " is: " + results[i]);
+        }
 
-        return  false;
     }
 }
