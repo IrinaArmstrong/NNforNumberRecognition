@@ -21,7 +21,7 @@ public class Library {
     public ArrayList <TaskAnswerPair> getSet(int num) {
         ArrayList <TaskAnswerPair> set = new ArrayList<TaskAnswerPair>();
         for (int i = 0; i < num; i++)  {
-            set.add(new TaskAnswerPair(getPixels(), num));
+            set.add(new TaskAnswerPair(getPixels(), this.num));
         }
         return set;
     }

@@ -1,5 +1,7 @@
 package ru.mail.airenea.files;
 
+import java.util.Random;
+
 // Class that realizes single neuron structure
 public class Neuron {
 
@@ -27,10 +29,11 @@ public class Neuron {
     // Constructor, that init weights, bias as random numbers (at first time using neuron)
     public Neuron( int dendritNumber) {
         this.dendritNumber = dendritNumber;
-        this.bias = Math.random();
+        Random random = new Random();
+        this.bias = random.nextDouble();
         this.dendritWeights = new double[this.dendritNumber];
         for (int i = 0; i < dendritNumber; i++)  {
-            this.dendritWeights[i] = Math.random();
+            this.dendritWeights[i] = random.nextDouble();
         }
         this.error = 0.0;
         this.output = sigmoid();
@@ -73,8 +76,8 @@ public class Neuron {
     }
 
     // Count error for this neuron, if it is in last layer
-    public void lastLayerCountError(double rightAnswers)  {
-        this.error = -(rightAnswers - this.output) * derivateSigmoid();
+    public void lastLayerCountError(double rightAnswer)  {
+        this.error = -(rightAnswer - this.output) * derivateSigmoid();
     }
 
     // Recount weights and bias using error

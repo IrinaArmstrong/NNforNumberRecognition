@@ -20,6 +20,7 @@ public class Network {
     // Array of result signals
     public double[] results;
 
+    //
 
     // Constructor of this network
     public Network(int layersNumber, int[] neuronsInLayers) {
@@ -68,8 +69,10 @@ public class Network {
 
         // Get array of right answers
         double[] answers = new double[tasks.size()];
+        System.out.println("Answers: ");
         for (int i = 0; i < tasks.size(); i++)  {
             answers[i] = tasks.get(i).getNumber();
+            System.out.print(answers[i] + "; ");
         }
 
         // Iterate chosen number of times
@@ -78,12 +81,19 @@ public class Network {
             // Go through all tasks from the set
             for (int taskNum = 0; taskNum < tasks.size(); taskNum++)  {
 
+                // Create answer
+                double[] answer = new double[neuronsInLayers[layersNumber - 1]];
+                for (int i = 0; i < answer.length; i++)  {
+                    if (i == answers[taskNum]) answer[i] = 1;
+                    else answer[i] = 0.0;
+                }
+
                 // Tasks to linear structure
-                int taskLenght = tasks.get(0).getTask().length;
+                int taskLenght = tasks.get(taskNum).getTask().length;
                 double[] task = new double[taskLenght * taskLenght];
                 for (int row = 0; row < taskLenght; row++) {
                     for (int col = 0; col < taskLenght; col++) {
-                        task[row + col] = tasks.get(0).getTask()[row][col];
+                        task[row + col] = tasks.get(taskNum).getTask()[row][col];
                     }
                 }
                 // Send signals through all layers
@@ -95,29 +105,30 @@ public class Network {
                 }
                 // Send final signal from the last layer to the output
                 this.results = this.getOutputSignal();
-
-                // Check for mistakes, if the are no mistakes -> give result, finish.
-                // Else - > counting mistake
-                /*if (this.isRight(this.results, answers))  {
-                    System.out.println("No mistake appeared!");
-                    return this.results;
-                }
-                else {}*/
+                this.printState();
 
                     // Mistake for the last layer
                     for (int i = 0; i < this.layers[layersNumber - 1].getNeuronsNumber(); i++)  {
-                        this.layers[layersNumber - 1].getNeurons()[i].lastLayerCountError(answers[i]);
+                        // Fixme
+                        layers[layersNumber - 1].getNeurons()[i].lastLayerCountError(answer[i]);
+                        //double[] lastLayerErrors =  layers[layersNumber - 1].giveErrorsToLayer();
                     }
                     // Mistake for other layers
                     for (int i = this.layersNumber - 1; i > 1 ; i--)  {
-                        layers[i - 1].getErrors(layers[i].giveErrorsToLayer());
+                        double[] errors = layers[i].giveErrorsToLayer();
+                        layers[i - 1].getErrors(errors);
                     }
                     // Correcting weights and biases, from 2nd layer to the last
                     for (int i = 1; i < this.layersNumber; i++)  {
                         layers[i].correctWeightsOfLayer(learningRate);
                     }
+                    System.out.println("\nIteration: " + iter + ";  TaskNum = " + taskNum);
+                    this.printState();
+                    results = this.getOutputSignal();
             }
+
         }
+
         System.out.println("Iterated " + iterations + " of times. Results returned.");
         return this.results;
     }
@@ -132,7 +143,6 @@ public class Network {
     }
 
     // Testing on example
-    // TODO: continue here
     public double[] testing (TaskAnswerPair exampleTask, double learningRate)  {
         // Tasks to linear structure
         int taskLenght = exampleTask.getTask().length;
@@ -152,5 +162,17 @@ public class Network {
         // Send final signal from the last layer to the output
         this.results = this.getOutputSignal();
         return this.results;
+    }
+
+    // Show state of weights in network
+    public void printState()  {
+        //new double[neuronsInLayers[layersNumber - 1]];
+        double[] outputs = this.getOutputSignal();
+       // outputs =
+        System.out.println("Outputs: ");
+        for (int i = 0; i < outputs.length; i++) {
+            System.out.print(outputs[i] + "; ");
+        }
+        System.out.println();
     }
 }
