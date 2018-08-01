@@ -41,7 +41,7 @@ public class Layer {
     private void createNeurons() {
         this.neurons = new Neuron[this.neuronsNumber];
         for (int i = 0; i < this.neuronsNumber; i++)  {
-            this.neurons[i] = new Neuron(this.neuronsNumber);
+            this.neurons[i] = new Neuron(this.prevNeuronsNumber);
         }
     }
 
@@ -73,7 +73,7 @@ public class Layer {
         double[] layerErrors = new double[this.prevNeuronsNumber];
         for (int i = 0; i < this.prevNeuronsNumber; i++)  {
             for (int j = 0; j < this.neuronsNumber; j++)  {
-                layerErrors[i] += this.neurons[j].giveErrors()[j];
+                layerErrors[i] += this.neurons[j].giveErrors()[i];
             }
         }
         return layerErrors;

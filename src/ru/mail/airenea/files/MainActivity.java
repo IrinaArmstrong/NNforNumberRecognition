@@ -10,7 +10,6 @@ public class MainActivity {
 
     public static void main(String[] args) {
 
-/*
 // Testing library
         Library library = new Library();
         TaskAnswerPair tap = library.getOne();
@@ -23,7 +22,6 @@ public class MainActivity {
             }
             System.out.println();
         }
-*/
 
 // Testing network
         int[] neuronsInLayers = {784, 16, 16, 10};

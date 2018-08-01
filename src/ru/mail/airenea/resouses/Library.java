@@ -42,6 +42,7 @@ public class Library {
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 pixels[row][col] = (byte) image.getRGB(col, row);
+                //pixels[row][col] /= 10;
             }
         }
         return pixels;
@@ -54,7 +55,8 @@ public class Library {
         String imgURL = "num" + generateRandNumber() + ".jpg";
         File file = new File(dir, imgURL);
         try {
-            BufferedImage image = ImageIO.read(file);
+            BufferedImage image = new BufferedImage(200,200,BufferedImage.TYPE_BYTE_GRAY);
+            image = ImageIO.read(file);
             return image;
         } catch (IOException e) {
             System.err.println("Error in reading from file: " + e.getMessage());

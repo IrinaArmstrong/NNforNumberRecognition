@@ -111,10 +111,12 @@ public class Network {
                     for (int i = 0; i < this.layers[layersNumber - 1].getNeuronsNumber(); i++)  {
                         // Fixme
                         layers[layersNumber - 1].getNeurons()[i].lastLayerCountError(answer[i]);
-                        //double[] lastLayerErrors =  layers[layersNumber - 1].giveErrorsToLayer();
+
                     }
+                    double[] lastLayerErrors =  layers[layersNumber - 1].giveErrorsToLayer();
+                    layers[layersNumber - 2].getErrors(lastLayerErrors);
                     // Mistake for other layers
-                    for (int i = this.layersNumber - 1; i > 1 ; i--)  {
+                    for (int i = this.layersNumber - 2; i > 1 ; i--)  {
                         double[] errors = layers[i].giveErrorsToLayer();
                         layers[i - 1].getErrors(errors);
                     }

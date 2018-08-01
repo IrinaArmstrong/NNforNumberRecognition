@@ -9,7 +9,7 @@ public class Neuron {
     private double bias;
 
     // Array of dendrits weights
-    private double[] dendritWeights;
+    public double[] dendritWeights;
 
     // Output signal of neuron
     public double output;
@@ -30,10 +30,10 @@ public class Neuron {
     public Neuron( int dendritNumber) {
         this.dendritNumber = dendritNumber;
         Random random = new Random();
-        this.bias = random.nextDouble();
+        this.bias = random.nextDouble() / 100;
         this.dendritWeights = new double[this.dendritNumber];
         for (int i = 0; i < dendritNumber; i++)  {
-            this.dendritWeights[i] = random.nextDouble();
+            this.dendritWeights[i] = random.nextDouble() / 100;
         }
         this.error = 0.0;
         this.output = sigmoid();
@@ -41,7 +41,8 @@ public class Neuron {
 
     // Activation (sigmoid) function
     private double sigmoid()  {
-        return 1 / (1 + Math.exp(this.weightsOutputsSumm));
+        double sigmoida = 1 / (1 + Math.exp(this.weightsOutputsSumm));
+        return sigmoida;
     }
 
     // Derivate of sigmoid function
@@ -84,7 +85,8 @@ public class Neuron {
     public void correctWeights(double learningRate)  {
         this.alpha = learningRate;
         for (int i = 0; i < dendritNumber; i++)  {
-            this.dendritWeights[i] -= this.alpha * this.error * this.output;
+            double deltaW = this.alpha * this.error * this.output;
+            this.dendritWeights[i] = this.dendritWeights[i] - deltaW;
         }
         this.bias -= this.alpha * this.error;
     }
