@@ -38,7 +38,7 @@ public class Network {
     // Create array of layers
     private void createLayers()  {
         this.layers = new Layer[this.layersNumber];
-        this.layers[0] = new Layer(0, this.neuronsInLayers[0], this.neuronsInLayers[0]);
+        this.layers[0] = new Layer(0, this.neuronsInLayers[0], 1);
         for (int i = 1; i < this.layersNumber; i++)  {
             this.layers[i] = new Layer(i, this.neuronsInLayers[i], this.neuronsInLayers[i - 1]);
         }
@@ -91,9 +91,11 @@ public class Network {
                 // Tasks to linear structure
                 int taskLenght = tasks.get(taskNum).getTask().length;
                 double[] task = new double[taskLenght * taskLenght];
+                int taskIterator = 0;
                 for (int row = 0; row < taskLenght; row++) {
                     for (int col = 0; col < taskLenght; col++) {
-                        task[row + col] = tasks.get(taskNum).getTask()[row][col];
+                        task[taskIterator] = tasks.get(taskNum).getTask()[row][col];
+                        taskIterator++;
                     }
                 }
                 // Send signals through all layers
@@ -109,7 +111,6 @@ public class Network {
 
                     // Mistake for the last layer
                     for (int i = 0; i < this.layers[layersNumber - 1].getNeuronsNumber(); i++)  {
-                        // Fixme
                         layers[layersNumber - 1].getNeurons()[i].lastLayerCountError(answer[i]);
 
                     }

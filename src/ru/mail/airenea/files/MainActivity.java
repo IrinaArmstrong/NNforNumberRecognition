@@ -11,7 +11,7 @@ public class MainActivity {
     public static void main(String[] args) {
 
 // Testing library
-        Library library = new Library();
+       /* Library library = new Library();
         TaskAnswerPair tap = library.getOne();
         System.out.println("Number is " + tap.getNumber());
         System.out.println("Task is ");
@@ -22,10 +22,11 @@ public class MainActivity {
             }
             System.out.println();
         }
+        */
 
 // Testing network
         int[] neuronsInLayers = {784, 16, 16, 10};
-        Teacher teacher = new Teacher(4, neuronsInLayers, 0.01, 10, 10);
+        Teacher teacher = new Teacher(4, neuronsInLayers, 0.01, 10, 20);
         teacher.train();
     }
 }

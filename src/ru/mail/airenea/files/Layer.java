@@ -55,11 +55,22 @@ public class Layer {
     }
 
     // Get output signal from previous layer's neurons to this layer's neurons
+    // If this is the first layer of network, just get input signals
     public void getInputSignalToLayer(double[] outputSignals) {
-        for (int i = 0; i < this.neuronsNumber; i++)  {
-            this.neurons[i].getSignals(outputSignals);
+        if (this.serialNumber == 0) {
+            for (int i = 0; i < this.neuronsNumber; i++)  {
+                this.neurons[i].getInputSygnal(outputSignals[i]);
+            }
         }
+        else {
+            for (int i = 0; i < this.neuronsNumber; i++)  {
+                this.neurons[i].getSignals(outputSignals);
+            }
+        }
+
     }
+
+
 
     // Get errors from next layer's neurons
     public void getErrors(double[] errors) {

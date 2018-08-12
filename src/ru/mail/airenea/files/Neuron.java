@@ -50,12 +50,18 @@ public class Neuron {
         return sigmoid() * (1 - sigmoid());
     }
 
+    // Get input signal to the neuron of FIRST LAYER
+    public void getInputSygnal(double inputSignal)  {
+        this.weightsOutputsSumm = inputSignal;
+    }
+
     // Get signals on dendrits from previous layer
     public void getSignals(double[] prevOutputs)  {
         for (int i = 0; i < dendritNumber; i++)  {
             this.weightsOutputsSumm += prevOutputs[i] * this.dendritWeights[i];
         }
         this.weightsOutputsSumm += this.bias;
+        this.setOutput();
     }
 
 
@@ -95,4 +101,12 @@ public class Neuron {
     public double getOutputSignal() {
         return output;
     }
+
+    // Count and set output signal
+    public void setOutput() {
+        this.output = sigmoid();
+    }
+
 }
+
+

@@ -32,6 +32,7 @@ public class Library {
     }
 
     // Get matrix of pixels
+    // fixme
     public byte[][] getPixels()  {
 
         BufferedImage image = getImageFromFile();
