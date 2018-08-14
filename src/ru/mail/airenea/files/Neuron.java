@@ -30,10 +30,15 @@ public class Neuron {
     public Neuron( int dendritNumber) {
         this.dendritNumber = dendritNumber;
         Random random = new Random();
-        this.bias = random.nextDouble() / 100;
+        this.bias = random.nextDouble() / 1000;
         this.dendritWeights = new double[this.dendritNumber];
-        for (int i = 0; i < dendritNumber; i++)  {
-            this.dendritWeights[i] = random.nextDouble() / 100;
+        if (dendritNumber == 1) {
+            this.dendritWeights[0] = 1;
+        }
+        else {
+            for (int i = 0; i < dendritNumber; i++)  {
+                this.dendritWeights[i] = random.nextDouble() / 1000;
+            }
         }
         this.error = 0.0;
         this.output = sigmoid();
@@ -41,7 +46,7 @@ public class Neuron {
 
     // Activation (sigmoid) function
     private double sigmoid()  {
-        double sigmoida = 1 / (1 + Math.exp(this.weightsOutputsSumm));
+        double sigmoida = 1 / (1 + Math.exp(-this.weightsOutputsSumm));
         return sigmoida;
     }
 
@@ -53,6 +58,7 @@ public class Neuron {
     // Get input signal to the neuron of FIRST LAYER
     public void getInputSygnal(double inputSignal)  {
         this.weightsOutputsSumm = inputSignal;
+        this.setOutput();
     }
 
     // Get signals on dendrits from previous layer
@@ -107,6 +113,20 @@ public class Neuron {
         this.output = sigmoid();
     }
 
+    // Print state of neuron
+    public void printStateNeuron() {
+        System.out.println("Dendrit number = "+ dendritNumber);
+        /*int cnt = 0;
+        for (double dendritWeight : dendritWeights) {
+            System.out.println("Dendrit w #" + cnt + " = " + dendritWeight);
+            cnt++;
+        }*/
+        System.out.println("Bias = " + bias);
+        System.out.println("Weights summ = " + weightsOutputsSumm);
+        System.out.println("Error = " + error);
+        System.out.println("Output = " + output);
+        System.out.println("Deriviate sigmoid = " + this.derivateSigmoid());
+    }
 }
 
 

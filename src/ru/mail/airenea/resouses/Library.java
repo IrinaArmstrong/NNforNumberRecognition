@@ -42,7 +42,10 @@ public class Library {
 
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
-                pixels[row][col] = (byte) image.getRGB(col, row);
+                //pixels[row][col] = (byte) image.getRGB(col, row);
+                Color colorOfPixel = new Color(image.getRGB(col, row));
+                //pixels[row][col] = (byte) (colorOfPixel.getRGB() / 128);
+                pixels[row][col] = (byte) ((colorOfPixel.getBlue() + colorOfPixel.getGreen() + colorOfPixel.getRed())/ 128 );
                 //pixels[row][col] /= 10;
             }
         }

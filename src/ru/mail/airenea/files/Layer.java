@@ -96,5 +96,18 @@ public class Layer {
             this.neurons[i].correctWeights(learningRate);
         }
     }
+
+    // Print state of layer
+    public void printStateLayer() {
+        System.out.println("Layer #" + serialNumber);
+        System.out.println("Neurons number = " + neuronsNumber);
+        int cnt=0;
+        for (Neuron neyron : neurons) {
+            System.out.println("");
+            System.out.println("Neuron #" + cnt);
+            neyron.printStateNeuron();
+            cnt++;
+        }
+    }
 }
 

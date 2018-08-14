@@ -107,7 +107,7 @@ public class Network {
                 }
                 // Send final signal from the last layer to the output
                 this.results = this.getOutputSignal();
-                this.printState();
+                //this.printState();
 
                     // Mistake for the last layer
                     for (int i = 0; i < this.layers[layersNumber - 1].getNeuronsNumber(); i++)  {
@@ -126,8 +126,9 @@ public class Network {
                         layers[i].correctWeightsOfLayer(learningRate);
                     }
                     System.out.println("\nIteration: " + iter + ";  TaskNum = " + taskNum);
-                    this.printState();
+
                     results = this.getOutputSignal();
+                    this.printState();
             }
 
         }
@@ -169,9 +170,13 @@ public class Network {
 
     // Show state of weights in network
     public void printState()  {
-        //new double[neuronsInLayers[layersNumber - 1]];
+        layers[1].getNeurons()[0].printStateNeuron();
+        /*System.out.println("Layers: ");
+        for (int i = 0; i < layersNumber; i++) {
+            layers[i].printStateLayer();
+        }*/
+
         double[] outputs = this.getOutputSignal();
-       // outputs =
         System.out.println("Outputs: ");
         for (int i = 0; i < outputs.length; i++) {
             System.out.print(outputs[i] + "; ");
