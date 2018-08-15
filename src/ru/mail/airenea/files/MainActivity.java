@@ -26,7 +26,7 @@ public class MainActivity {
 
 // Testing network
         int[] neuronsInLayers = {784, 16, 16, 10};
-        Teacher teacher = new Teacher(4, neuronsInLayers, 0.01, 10, 10);
+        Teacher teacher = new Teacher(4, neuronsInLayers, 0.1, 100, 20);
         teacher.train();
     }
 }

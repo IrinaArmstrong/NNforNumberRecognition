@@ -1,5 +1,6 @@
 package ru.mail.airenea.files;
 
+import java.util.Arrays;
 import java.util.Random;
 
 // Class that realizes single neuron structure
@@ -30,10 +31,10 @@ public class Neuron {
     public Neuron( int dendritNumber) {
         this.dendritNumber = dendritNumber;
         Random random = new Random();
-        this.bias = random.nextDouble() / 1000;
+        this.bias = random.nextDouble() / 100;
         this.dendritWeights = new double[this.dendritNumber];
         if (dendritNumber == 1) {
-            this.dendritWeights[0] = 1;
+            this.dendritWeights[0] = 0.01;
         }
         else {
             for (int i = 0; i < dendritNumber; i++)  {
@@ -43,6 +44,20 @@ public class Neuron {
         this.error = 0.0;
         this.output = sigmoid();
     }
+
+    // Activation (relU) function
+    private double relU()  {
+        double relu = 0;
+        if (this.weightsOutputsSumm > 0) relu = weightsOutputsSumm;
+        return relu;
+    }
+
+    // Derivate of relu function
+    private double derivateRElU() {
+        if (relU() == 0) return 0;
+        else return 1;
+    }
+
 
     // Activation (sigmoid) function
     private double sigmoid()  {
@@ -86,6 +101,7 @@ public class Neuron {
             this.error += nextErrors[i];
         }
         this.error *= this.derivateSigmoid();
+        this.error *= this.weightsOutputsSumm;
     }
 
     // Count error for this neuron, if it is in last layer
@@ -121,6 +137,9 @@ public class Neuron {
             System.out.println("Dendrit w #" + cnt + " = " + dendritWeight);
             cnt++;
         }*/
+        double [] w = dendritWeights;
+        Arrays.sort(w);
+        System.out.println("Max weight = " + w[w.length - 1]);
         System.out.println("Bias = " + bias);
         System.out.println("Weights summ = " + weightsOutputsSumm);
         System.out.println("Error = " + error);

@@ -31,8 +31,13 @@ public class Library {
         return new TaskAnswerPair(getPixels(), num);
     }
 
+    // Get matrix of numbers, for easy testing net without pictures
+    // todo
+    /*public byte[][] getPixelsEnum(int num)  {
+
+    }*/
+
     // Get matrix of pixels
-    // fixme
     public byte[][] getPixels()  {
 
         BufferedImage image = getImageFromFile();
@@ -44,8 +49,10 @@ public class Library {
             for (int col = 0; col < width; col++) {
                 //pixels[row][col] = (byte) image.getRGB(col, row);
                 Color colorOfPixel = new Color(image.getRGB(col, row));
-                //pixels[row][col] = (byte) (colorOfPixel.getRGB() / 128);
-                pixels[row][col] = (byte) ((colorOfPixel.getBlue() + colorOfPixel.getGreen() + colorOfPixel.getRed())/ 128 );
+                int rgb = (colorOfPixel.getBlue()/ 255 + colorOfPixel.getGreen()/ 255 + colorOfPixel.getRed()/ 255) / 3;
+                pixels[row][col] = (byte) rgb;
+                //pixels[row][col] = (byte) (colorOfPixel.getRGB() / 255);
+                //pixels[row][col] = (byte) ((colorOfPixel.getBlue() + colorOfPixel.getGreen() + colorOfPixel.getRed())/ 128 );
                 //pixels[row][col] /= 10;
             }
         }

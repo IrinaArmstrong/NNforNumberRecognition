@@ -170,7 +170,7 @@ public class Network {
 
     // Show state of weights in network
     public void printState()  {
-        layers[1].getNeurons()[0].printStateNeuron();
+        layers[3].getNeurons()[2].printStateNeuron();
         /*System.out.println("Layers: ");
         for (int i = 0; i < layersNumber; i++) {
             layers[i].printStateLayer();
